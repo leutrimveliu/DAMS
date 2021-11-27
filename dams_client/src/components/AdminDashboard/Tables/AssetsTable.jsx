@@ -24,6 +24,7 @@ import {getAssets} from "../../../api/assets";
 import { deleteAsset } from "../../../api/editAsset";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getCategories } from "../../../api/filter";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -57,6 +58,12 @@ const headCells = [
     // numeric: "right",
     disablePadding: false,
     label: "No.",
+  },
+  {
+    id: "assetCode",
+    // numeric: "right",
+    disablePadding: false,
+    label: "Code",
   },
   
   {
@@ -137,6 +144,12 @@ const headCells = [
     numeric: "center",
     disablePadding: false,
     label: "Holder",
+  },
+  {
+    id: "assetAvailability",
+    numeric: "center",
+    disablePadding: false,
+    label: "Status",
   },
 
   {
@@ -324,11 +337,16 @@ export default function AssetsTable() {
 
     setAssets(response);
   };
+  const getCategoriesList = async () => {
+    const response = await getCategories();
+    setSearchCategories(response);
+  };
 
 
 
   useEffect(() => {
     getAssetsList();
+    getCategoriesList();
     
   }, []);
 
@@ -447,7 +465,15 @@ export default function AssetsTable() {
                       >
                         {asset.assetNr}
                       </TableCell>
-                      <TableCell align="center">{asset.assetCategory}</TableCell>
+                      <TableCell align="left">{asset.assetCode}</TableCell>
+                      {searchCategories.map((category) =>
+                      asset.assetCategory === category._id ? (
+                        <TableCell align="center">
+                          {category.assetCategory}
+                        </TableCell>
+                      ) : null
+                    )}
+                      {/* <TableCell align="center">{asset.assetCategory}</TableCell> */}
                       <TableCell align="center">{asset.assetDescription}</TableCell>
                       <TableCell align="center">{asset.assetModel}</TableCell>
                       <TableCell align="center">{asset.assetSerialNo}</TableCell>
@@ -466,6 +492,7 @@ export default function AssetsTable() {
                       <TableCell align="center">{asset.assetLocation}</TableCell>
                       <TableCell align="center">{asset.roomNo}</TableCell>
                       <TableCell align="center">{asset.assetHolder}</TableCell>
+                      <TableCell align="left">{asset.assetAvailability}</TableCell>
                       <TableCell align="center">
                         <Link to={`/admins/asset/${asset._id}`}>
                           <IconButton

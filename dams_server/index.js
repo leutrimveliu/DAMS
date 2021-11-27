@@ -9,6 +9,8 @@ const editAsset = require("./routes/editAsset");
 const getAssets =require ("./routes/getAssets");
 const login = require("./routes/auth");
 const role = require("./routes/role");
+const Asset = require("./models/Assets");
+const category = require("./routes/category");
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -30,6 +32,11 @@ app.use("/getAssets", getAssets);
 app.use("/auth", login);
 app.use("/assets", assets);
 app.use("/role", role);
+app.use("/category", category);
+
+app.use("/status", function (req, res, next) {
+  res.json(Asset.schema.path("assetAvailability").enumValues);
+});
 
 var port = process.env.PORT || 4000;
 

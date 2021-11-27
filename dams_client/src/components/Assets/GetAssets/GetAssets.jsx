@@ -20,7 +20,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
  import { getAssets } from "../../../api/assets";
-
+ import { getCategories } from "../../../api/filter";
 import {  deleteAsset, getManagerAssets } from "../../../api/editAsset";
 import { useHistory, Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -57,6 +57,12 @@ const headCells = [
     // numeric: "right",
     disablePadding: false,
     label: "No.",
+  },
+  {
+    id: "assetCode",
+    // numeric: "right",
+    disablePadding: false,
+    label: "Code",
   },
   {
     id: "assetCategory",
@@ -136,6 +142,12 @@ const headCells = [
     numeric: "center",
     disablePadding: false,
     label: "Holder",
+  },
+  {
+    id: "assetAvailability",
+    numeric: "center",
+    disablePadding: false,
+    label: "Status",
   },
 ];
 
@@ -300,7 +312,7 @@ export default function GetAssets() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [asset, setAssets] = React.useState([]);
-
+  const [searchCategories, setSearchCategories] = React.useState([]);
   const getAssetsList = async () => {
     const response = await getAssets();
     setAssets(response);
@@ -317,9 +329,14 @@ export default function GetAssets() {
   //     }, 1000);
   //   } catch (e) {}
   // };
+  const getCategoriesList = async () => {
+    const response = await getCategories();
+    setSearchCategories(response);
+  };
 
   useEffect(() => {
     getAssetsList();
+    getCategoriesList();
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -419,7 +436,14 @@ export default function GetAssets() {
                       >
                         {asset.assetNr}
                       </TableCell>
-                      <TableCell align="center">{asset.assetCategory}</TableCell>
+                      <TableCell align="left">{asset.assetCode}</TableCell>
+                      {searchCategories.map((category) =>
+                      asset.assetCategory === category._id ? (
+                        <TableCell align="center">
+                          {category.assetCategory}
+                        </TableCell>
+                      ) : null
+                    )}
                       <TableCell align="center">{asset.assetDescription}</TableCell>
                       <TableCell align="center">{asset.assetModel}</TableCell>
                       <TableCell align="center">{asset.assetSerialNo}</TableCell>
@@ -438,6 +462,7 @@ export default function GetAssets() {
                       <TableCell align="center">{asset.assetLocation}</TableCell>
                       <TableCell align="center">{asset.roomNo}</TableCell>
                       <TableCell align="center">{asset.assetHolder}</TableCell>
+                      <TableCell align="left">{asset.assetAvailability}</TableCell>
 
                     </TableRow>
                   );

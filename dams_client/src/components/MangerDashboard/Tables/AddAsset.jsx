@@ -151,7 +151,7 @@ export default function CompanyDashboard() {
             noWrap
           >
             <NavLink to="/company" className="dashboard__link">
-              DAMS Admin Dashboard
+              DAMS Manager Dashboard
             </NavLink>
           </Typography>
         </Toolbar>

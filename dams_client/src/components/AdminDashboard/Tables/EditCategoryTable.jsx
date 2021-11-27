@@ -1,8 +1,6 @@
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Grid from "@material-ui/core/Grid";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,16 +14,18 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { Link ,Redirect} from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import {getAssets} from "../../../api/assets";
-import { getCategories } from "../../../api/filter";
-
-import { useHistory, useParams } from "react-router-dom";
+import {
+  getCategories,
+  deleteCategories,
+  addCategory,
+} from "../../../api/filter";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -55,107 +55,12 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "assetNr",
-    numeric: "center",
+    id: "eventCategory",
+    numeric: false,
     disablePadding: false,
-    label: "No.",
+    label: "Event Category",
   },
-  {
-    id: "assetCode",
-     numeric: "center",
-    disablePadding: false,
-    label: "Code",
-  },
- 
-  {
-    id: "assetCategory",
-    numeric: "center",
-    disablePadding: false,
-    label: "Category",
-  },
-  {
-    id: "assetDescription",
-    numeric: "center",
-    disablePadding: false,
-    label: "Description",
-  },
-  {
-    id: "assetModel",
-     numeric: "left",
-    disablePadding: false,
-    label: "Model",
-  },
-  {
-    id: "assetSerialNo",
-    numeric: "center",
-    disablePadding: false,
-    label: "Serial no.",
-  },
-  {
-    id: "assetSupplier",
-    numeric: "center",
-    disablePadding: false,
-    label: "Supplier",
-  },
-  {
-    id: "price",
-    numeric: "center",
-    disablePadding: false,
-    label: "Price",
-  }, 
-  {
-    id: "deliveryDate",
-     numeric: "left",
-    disablePadding: false,
-    label: "Delivery date",
-  },
-  {
-    id: "publishDate",
-     numeric: "left",
-    disablePadding: false,
-    label: "Publish date",
-  },
-  
-  {
-    id: "donorName",
-    numeric: "center",
-    disablePadding: false,
-    label: "Donor",
-  },
-  {
-    id: "projectName",
-    numeric: "center",
-    disablePadding: false,
-    label: "Project Name",
-  },
-  {
-    id: "assetLocation",
-    numeric: "center",
-    disablePadding: false,
-    label: "Location",
-  },
-  {
-    id: "roomNo",
-    numeric: "center",
-    disablePadding: false,
-    label: "Room no.",
-  },
-  {
-    id: "assetHolder",
-    numeric: "center",
-    disablePadding: false,
-    label: "Holder",
-  },
-  {
-    id: "assetAvailability",
-    numeric: "center",
-    disablePadding: false,
-    label: "Status",
-  },
-
-  
 ];
-
 function EnhancedTableHead(props) {
   const {
     classes,
@@ -166,8 +71,8 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
+  const createSortHandler = (property) => (category) => {
+    onRequestSort(category, property);
   };
 
   return (
@@ -186,11 +91,13 @@ function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}>
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}>
+              onClick={createSortHandler(headCell.id)}
+            >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
@@ -243,13 +150,15 @@ const EnhancedTableToolbar = (props) => {
     <Toolbar
       className={clsx(classes.root, {
         [classes.highlight]: numSelected > 0,
-      })}>
+      })}
+    >
       {numSelected > 0 ? (
         <Typography
           className={classes.title}
           color="inherit"
           variant="subtitle1"
-          component="div">
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
@@ -257,20 +166,9 @@ const EnhancedTableToolbar = (props) => {
           className={classes.title}
           variant="h6"
           id="tableTitle"
-          component="div">
-          All Assets
-        </Typography>
+          component="div"
+        ></Typography>
       )}
-
-      {/* {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        ""
-      )} */}
     </Toolbar>
   );
 };
@@ -283,7 +181,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
-
+  form: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+    display: "flex",
+  },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
   table: {
     minWidth: 750,
   },
@@ -306,49 +214,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AssetsTable() {
+export default function EditCategoryTable() {
   const classes = useStyles();
   const history = useHistory();
   const { user: currentUser } = useSelector((state) => state.auth);
-  // const { user: currentUser } = useSelector((state) => state.auth);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  // const [dense, setDense] = React.useState(false);
+  // const [errors, setErrors] = useState({});
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [asset, setAssets] = React.useState([]);
-  const [searchCategories, setSearchCategories] = React.useState([]);
-
-  
-
-  const getAssetsList = async () => {
-    const response = await getAssets(currentUser.user._id);
-
-    setAssets(response);
-  };
+  const [categories, setCategories] = React.useState([]);
+  const [categoryText, setCategoryText] = React.useState("");
 
   const getCategoriesList = async () => {
     const response = await getCategories();
-    setSearchCategories(response);
+    setCategories(response);
   };
 
   useEffect(() => {
-    getAssetsList();
     getCategoriesList();
   }, []);
 
-  
+  const handleDelete = async (id) => {
+    const deleteuser = {
+      user_id: currentUser.user._id,
+    };
+    try {
+      await deleteCategories(id, deleteuser);
 
-  const handleRequestSort = (event, property) => {
+      console.log("Category has been deleted!");
+      setTimeout(() => {
+        history.go("/admin/categories");
+      }, 500);
+    } catch (e) {}
+  };
+
+  const handleRequestSort = (category, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  
+  const handleSelectAllClick = (category) => {
+    if (category.target.checked) {
+      const newSelecteds = categories.map((n) => n.eventCategory);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
 
-  const handleClick = (event, name) => {
+  const handleClick = (category, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -368,31 +285,79 @@ export default function AssetsTable() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChange = (e) => {
+    setCategoryText(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    // const validationErrors = validate(categoryText);
+    // const noErrors = Object.keys(validationErrors).length === 0;
+    // setErrors(validationErrors);
+    const category = {
+      eventCategory: categoryText,
+      user_id: currentUser.user._id,
+    };
+
+    console.log(categoryText);
+    try {
+      await addCategory(category);
+      setCategoryText("");
+      setTimeout(() => {
+        history.go("/admin/categories");
+      }, 1000);
+    } catch (e) {}
+  };
+  // const validate = (category) => {
+  //   const errors = {};
+  //   if (!category.eventCategory) {
+  //     errors.eventCategory = "Check name";
+  //   } else if (
+  //     !/^[a-zA-Z\s]*$/i.test(category.eventCategory) ||
+  //     category.eventCategory.length < 3
+  //   ) {
+  //     errors.name = "Category must be as least 3 characters long!";
+  //   }
+  //   return errors;
+  // };
+  const handleChangePage = (category, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (category) => {
+    setRowsPerPage(parseInt(category.target.value, 10));
     setPage(0);
   };
-  
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, asset.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, categories.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={12}
-        component={Paper}
-        className={classes.paper}
-      >
+      <form className={classes.form} noValidate autoComplete="off">
+        <TextField
+          id="outlined-basic"
+          label="Add Category"
+          value={categoryText}
+          variant="outlined"
+          size="small"
+          onChange={(e) => handleChange(e)}
+        />
+        {/* {errors.categoryText && (
+          <p className="error__message">
+            Category must be as least 3 characters long!
+          </p>
+        )} */}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleSubmit()}
+        >
+          ADD
+        </Button>
+      </form>
+      <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -406,23 +371,25 @@ export default function AssetsTable() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={asset.length}
+              rowCount={categories.length}
             />
             <TableBody>
-              {stableSort(asset, getComparator(order, orderBy))
+              {stableSort(categories, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((asset, index) => {
-                  const isItemSelected = isSelected(asset.title);
+                .map((category, index) => {
+                  const isItemSelected = isSelected(category.eventCategory);
                   const labelId = `enhanced-table-checkbox-${index}`;
+
                   return (
                     <TableRow
                       hover
-                      onClick={(e) => handleClick(e, asset.title)}
+                      onClick={(e) => handleClick(e, category.eventCategory)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={asset._id}
+                      key={category.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -436,44 +403,37 @@ export default function AssetsTable() {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        align="center"
                       >
-                        {asset.assetNr}
+                        {category.eventCategory}
                       </TableCell>
-                      <TableCell align="center">{asset.assetCode}</TableCell>
-                      {searchCategories.map((category) =>
-                      asset.assetCategory === category._id ? (
-                        <TableCell align="center">
-                          {category.assetCategory}
-                        </TableCell>
-                      ) : null
-                    )}
-                      <TableCell align="center">{asset.assetDescription}</TableCell>
-                      <TableCell align="center">{asset.assetModel}</TableCell>
-                      <TableCell align="center">{asset.assetSerialNo}</TableCell>
-                      <TableCell align="center">{asset.assetSupplier}</TableCell>
-                      <TableCell align="center">
-                        {asset.price.toFixed(2)}€{" "}
-                       </TableCell>
-                      <TableCell align="center">
-                        {asset.deliveryDate.split("T")[0]}
-                        </TableCell>
-                      <TableCell align="center">
-                        {asset.publishDate.split("T")[0]}
+                      <TableCell align="left">{category._id}</TableCell>
+
+                      <TableCell align="right">
+                        {/* <Link to={`/employee/edit/${user._id}`}> */}
+                        <IconButton aria-label="delete" className="edit_button">
+                          <EditIcon className="edit_icon" />
+                        </IconButton>
+                        {/* </Link> */}
                       </TableCell>
-                      <TableCell align="center">{asset.donorName}</TableCell>
-                      <TableCell align="center">{asset.projectName}</TableCell>
-                      <TableCell align="center">{asset.assetLocation}</TableCell>
-                      <TableCell align="center">{asset.roomNo}</TableCell>
-                      <TableCell align="center">{asset.assetHolder}</TableCell>
-                      <TableCell align="center">{asset.assetAvailability}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          onClick={() => {
+                            if (window.confirm("Delete the event?")) {
+                              handleDelete(category._id);
+                            }
+                          }}
+                          className="delete_button"
+                          aria-label="delete"
+                        >
+                          <DeleteIcon className="delete_icon" />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ emptyRows }}>
-                  {/* <TableCell colSpan={6} /> */}
-                  <Divider />
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
@@ -482,13 +442,13 @@ export default function AssetsTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10]}
           component="div"
-          count={asset.length}
+          count={categories.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Grid>
+      </Paper>
     </div>
   );
 }

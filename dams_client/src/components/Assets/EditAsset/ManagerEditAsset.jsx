@@ -6,6 +6,7 @@ import { editAsset} from "../../../api/editAsset";
 import { useHistory, Redirect, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { getCategories, getStatus } from "../../../api/filter";
 import { useSelector } from "react-redux";
 import "./style.scss";
 
@@ -16,12 +17,25 @@ function EditAsset() {
     const [showEditForm, setShowEditForm] = useState(false);
     const [errMessage, setErrMessage] = useState(false);
     const [assetDetails, setAssetDetails] = useState({});
+    const [searchCategories, setSearchCategories] = useState([]);
+    const [status, setStatus] = useState([]);
     const [successMessage, setSuccessMessage] = useState(false);
+    const getCategoriesList = async () => {
+      const response = await getCategories();
+      setSearchCategories(response);
+      console.log(response);
+    };
+    const getStatusList = async () => {
+      const response = await getStatus();
+      setStatus(response);
+    };
+
     const getAssetFields = async () => {
       const response = await getAsset(id);
       setAssetDetails((oldDetails) => ({
         ...oldDetails,
         assetNr: response.assetNr,
+        assetCode: response.assetCode,
         assetCategory: response.assetCategory,
         assetDescription: response.assetDescription,
         assetModel: response.assetModel,
@@ -34,6 +48,7 @@ function EditAsset() {
         assetLocation: response.assetLocation,
         roomNo: response.roomNo,
         assetHolder: response.assetHolder,
+        assetAvailability:response.assetAvailability,
       
     }));
     setShowEditForm(true);
@@ -45,6 +60,7 @@ function EditAsset() {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = async (data,e) => {
     const registerData = {
+      assetCode:data.assetCode,
         assetCategory: data.assetCategory,
         assetDescription: data.assetDescription,
         assetModel: data.assetModel,
@@ -57,6 +73,7 @@ function EditAsset() {
         assetLocation: data.assetLocation,
         roomNo: data.roomNo,
         assetHolder: data.assetHolder,
+        assetAvailability:data.assetAvailability,
         user_id: currentUser.user._id,
       };
     try {
@@ -67,6 +84,8 @@ function EditAsset() {
     } catch (e) {}
   };
   useEffect(() => {
+    getStatusList();
+    getCategoriesList();
     getAssetFields();
     console.log(assetDetails)
   }, [currentUser]);
@@ -89,25 +108,59 @@ function EditAsset() {
             <Row>
               <Col className="col-12 col-md-6">
              
+              <Form.Group controlId="assetCode">
+                  <Form.Label>Asset Code</Form.Label>
+                  <Form.Control
+                  id="assetCode"
+                    name="assetCode"
+                    onChange={handleChange}
+                    defaultValue={assetDetails.assetCode}
+                    type="number"
+                    ref={register({ required: true,      
+               
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "Only Numbers",
+                        }, })}
+                  ></Form.Control>
+
+                    <p style={{ color: "red" }}>
+                      &#8203;
+                      {errors.assetCode && errors.assetCode.type === "required" && (
+                        <span>This field is required!</span>
+                      )}
+                    </p>
+                </Form.Group>
                 <Form.Group controlId="assetCategory">
                   <Form.Label>Asset Category</Form.Label>
                   <Form.Control
                     name="assetCategory"
                     type="text"
                     onChange={handleChange}
-                    defaultValue={assetDetails.assetCategory}
-                    placeholder="Asset Category..."
-                    ref={register({ required: true,      
+                    // defaultValue={assetDetails.assetCategory}
+                    value={assetDetails.assetCategory}
+                    as="select"
+                    ref={register({
+                      required: true,
+                      validate: (value) => value !== "Pick a Category",
                     })}
-                  />
-                    
-               
-                    <p style={{ color: "rdelied" }}>
-                      &#8203;
-                      {errors.assetCategory && errors.assetCategory.type === "required" && (
-                        <span>This field is required!</span>
+                  >
+                    {/* <option>Pick a Category</option> */}
+                    {searchCategories.map((categories) => (
+                      <option value={categories._id}>
+                        {categories.assetCategory}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <p style={{ color: "red" }}>
+                    &#8203;
+                    {errors.assetCategory &&
+                      errors.assetCategory.type === "validate" && (
+                        <span>
+                          This field is required, select one of the Categories!
+                        </span>
                       )}
-                    </p>
+                  </p>
                 </Form.Group>
                 <Form.Group controlId="assetDescription">
                   <Form.Label>Asset Description</Form.Label>
@@ -343,6 +396,33 @@ function EditAsset() {
                       )}
                   </p>
 
+                </Form.Group>
+                <Form.Group controlId="assetAvailability">
+                  <Form.Label>Asset Status*</Form.Label>
+                  <Form.Control
+                    name="assetAvailability"
+                    value={assetDetails.assetAvailability}
+                    onChange={handleChange}
+                    as="select"
+                    ref={register({
+                      required: true,
+                      validate: (value) => value !== "Pick a Location",
+                    })}
+                  >
+                    {/* <option>Pick a Location</option> */}
+                    {status.map((locations) => (
+                      <option value={locations}>{locations}</option>
+                    ))}
+                  </Form.Control>
+                  <p style={{ color: "red" }}>
+                    &#8203;
+                    {errors.assetAvailability &&
+                      errors.assetAvailability.type === "validate" && (
+                        <span>
+                          This field is required, select one of the Locations!
+                        </span>
+                      )}
+                  </p>
                 </Form.Group>
               </Col>
 

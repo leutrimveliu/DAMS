@@ -25,6 +25,8 @@ import { deleteAsset, getManagerAssets } from "../../../api/editAsset";
 // import { getCategories } from "../../../api/filter";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getCategories } from "../../../api/filter";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -55,7 +57,7 @@ function stableSort(array, comparator) {
 const headCells = [
   {
     id: "assetNr",
-    // numeric: "right",
+    numeric: "center",
     disablePadding: false,
     label: "No.",
   },
@@ -65,6 +67,12 @@ const headCells = [
   //   disablePadding: false,
   //   label: "Old no.",
   // },
+  {
+    id: "assetCode",
+     numeric: "center",
+    disablePadding: false,
+    label: "Code",
+  },
   {
     id: "assetCategory",
     numeric: "center",
@@ -143,6 +151,12 @@ const headCells = [
     numeric: "center",
     disablePadding: false,
     label: "Holder",
+  },
+  {
+    id: "assetAvailability",
+    numeric: "center",
+    disablePadding: false,
+    label: "Status",
   },
 
   {
@@ -321,12 +335,16 @@ export default function AssetsTable() {
 
     setAssets(response);
   };
+  const getCategoriesList = async () => {
+    const response = await getCategories();
+    setSearchCategories(response);
+  };
 
   
 
   useEffect(() => {
     getAssetsList();
-   
+    getCategoriesList();
   }, []);
 
   const handleDeleteSubmit = async (id) => {
@@ -440,12 +458,19 @@ export default function AssetsTable() {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        align="left"
+                        align="center"
                       >
                         {asset.assetNr}
                       </TableCell>
                       {/* <TableCell align="center">{asset.assetOldNr}</TableCell> */}
-                      <TableCell align="center">{asset.assetCategory}</TableCell>
+                      <TableCell align="center">{asset.assetCode}</TableCell>
+                      {searchCategories.map((category) =>
+                      asset.assetCategory === category._id ? (
+                        <TableCell align="center">
+                          {category.assetCategory}
+                        </TableCell>
+                      ) : null
+                    )}
                       <TableCell align="center">{asset.assetDescription}</TableCell>
                       <TableCell align="center">{asset.assetModel}</TableCell>
                       <TableCell align="center">{asset.assetSerialNo}</TableCell>
@@ -464,6 +489,7 @@ export default function AssetsTable() {
                       <TableCell align="center">{asset.assetLocation}</TableCell>
                       <TableCell align="center">{asset.roomNo}</TableCell>
                       <TableCell align="center">{asset.assetHolder}</TableCell>
+                      <TableCell align="left">{asset.assetAvailability}</TableCell>
                       <TableCell align="center">
                         <Link to={`/manager/asset/${asset._id}`}>
                           <IconButton

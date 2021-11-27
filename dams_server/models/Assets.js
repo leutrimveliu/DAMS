@@ -8,10 +8,20 @@ const assetSchema = mongoose.Schema({
      default:1,
     unique:true,
   },
-  assetCategory:{
-    type: String,
-    required: [true, "Asset category required"],
+  assetCode:{
+    type: Number,
+    required: [true, "Asset code required"],
+    unique:true,
   },
+  assetCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
+  // assetCategory:{
+  //   type: String,
+  //   required: [true, "Asset category required"],
+  // },
   assetDescription:{
     type: String,
     required: [true, "Asset description required"],
@@ -61,6 +71,15 @@ const assetSchema = mongoose.Schema({
   assetHolder:{
     type: String,
     required: [true, "Asset Holder required"],
+  },
+  assetAvailability:{
+    type: String,
+    enum: [
+      "Active",
+      "Passive",
+    ],
+    required: true,
+
   },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,

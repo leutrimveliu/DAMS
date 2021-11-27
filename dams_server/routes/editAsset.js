@@ -29,7 +29,7 @@ function verifyToken(req, res, next) {
 
 
 const validationChecks = [
- 
+  check("assetCode", "Asset code can not be empty!").not().isEmpty(),
   check("assetCategory", "Event Location can not be empty!").not().isEmpty(),
   check("assetDescription", "Event Category can not be empty!").not().isEmpty(),
   check("assetModel", "Event Location can not be empty!").not().isEmpty(),
@@ -42,6 +42,8 @@ const validationChecks = [
   check("assetLocation", "Event Location can not be empty!").not().isEmpty(),
   check("roomNo", "Event Category can not be empty!").not().isEmpty(),
   check("assetHolder", "Event Location can not be empty!").not().isEmpty(),
+  check("assetAvailability", "Asset code can not be empty!").not().isEmpty(),
+
 ];
 
 router.put("/:id", verifyToken, validationChecks, function (req, res) {
@@ -76,7 +78,7 @@ router.put("/:id", verifyToken, validationChecks, function (req, res) {
                     Asset.findByIdAndUpdate(
                       req.params.id,
                       {
-                  
+                        assetCode: req.body.assetCode,
                   assetCategory: req.body.assetCategory,
                   assetDescription: req.body.assetDescription,  
                   assetModel: req.body.assetModel,
@@ -89,6 +91,7 @@ router.put("/:id", verifyToken, validationChecks, function (req, res) {
                   assetLocation: req.body.assetLocation,
                   roomNo: req.body.roomNo,  
                   assetHolder: req.body.assetHolder,
+                  assetAvailability: req.body.assetAvailability,
                       },
                       (error, data) => {
                         // if (error) return next(error);

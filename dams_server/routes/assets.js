@@ -1,5 +1,6 @@
 const Assets = require("../models/Assets");
 const Register = require("../models/User");
+const Category = require("../models/Category");
 const express = require("express");
 const { validationResult, check } = require("express-validator");
 const jwt = require("jsonwebtoken");
@@ -26,6 +27,9 @@ function verifyToken(req, res, next) {
   }
 }
 router.get("/", function (req, res, next) {
+   Category.findOne({
+    eventCategory: req.query.category,
+  });
   Assets.find(function (err, asset) {
     if (err) return next(err);
     res.json(asset);
@@ -33,6 +37,7 @@ router.get("/", function (req, res, next) {
 });
 
 const validationChecks = [
+  check("assetCode", "Asset code can not be empty!").not().isEmpty(),
   check("assetCategory", "Asset Category can not be empty!").not().isEmpty(),
   check("assetDescription", "Asset Description can not be empty!").not().isEmpty(),
   check("assetModel", "Asset Model can not be empty!").not().isEmpty(),
@@ -45,6 +50,7 @@ const validationChecks = [
   check("assetLocation", "Asset Location can not be empty!").not().isEmpty(),
   check("roomNo", "Room number can not be empty!").not().isEmpty(),
   check("assetHolder", "Asset Holder can not be empty!").not().isEmpty(),
+  check("assetAvailability", "Asset code can not be empty!").not().isEmpty(),
 ];
 
 router.post("/", verifyToken, validationChecks, function (req, res) {
@@ -75,7 +81,7 @@ router.post("/", verifyToken, validationChecks, function (req, res) {
               } else {
 
                 const asset = new Assets({
-                  // assetNr: req.body.assetNr,  
+                   assetCode: req.body.assetCode,  
                   // assetOldNr: req.body.assetOldNr,
                   assetCategory: req.body.assetCategory,
                   assetDescription: req.body.assetDescription,  
@@ -89,6 +95,7 @@ router.post("/", verifyToken, validationChecks, function (req, res) {
                   assetLocation: req.body.assetLocation,
                   roomNo: req.body.roomNo,  
                   assetHolder: req.body.assetHolder,
+                  assetAvailability: req.body.assetAvailability,
                   user_id: req.body.user_id,
                 });
 

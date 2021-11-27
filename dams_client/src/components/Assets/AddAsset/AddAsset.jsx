@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import Paper from "@material-ui/core/Paper";
+import { getCategories, getStatus } from "../../../api/filter";
 import { useSelector } from "react-redux";
 import "./AddAsset.scss";
 
@@ -18,12 +19,25 @@ function AddAsset() {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [errMessage, setErrMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
-
+  const [searchCategories, setSearchCategories] = useState([]);
+  const [status, setStatus] = useState([]);
   const { register, handleSubmit, errors } = useForm();
+  
+  const getCategoriesList = async () => {
+    const response = await getCategories();
+    setSearchCategories(response);
+    console.log(response);
+  };
+  const getStatusList = async () => {
+    const response = await getStatus();
+    setStatus(response);
+  };
+  
   const onSubmit = async (data, e) => {
     const registerData = {
       // assetNr: data.assetNr,
       // assetOldNr: data.assetOldNr,
+      assetCode:data.assetCode,
       assetCategory: data.assetCategory,
       assetDescription: data.assetDescription,
       assetModel: data.assetModel,
@@ -36,6 +50,7 @@ function AddAsset() {
       assetLocation: data.assetLocation,
       roomNo: data.roomNo,
       assetHolder: data.assetHolder,
+      assetAvailability:data.assetAvailability,
       user_id: currentUser.user._id,
     };
     
@@ -50,7 +65,10 @@ function AddAsset() {
       }, 2000);
     } catch (e) { console.log("Form has not been submitted");}
   };
-  useEffect(() => {}, [currentUser]);
+  useEffect(() => {
+    getStatusList();
+    getCategoriesList();
+  }, [currentUser]);
   if (!currentUser) {
     return <Redirect to={"/"} />;
   }
@@ -73,7 +91,58 @@ function AddAsset() {
           >
             <Row>
               <Col className="col-12 col-md-6">
-                <Form.Group controlId="assetCategory">
+              <Form.Group controlId="assetCode">
+                  <Form.Label>Asset Code</Form.Label>
+                  <Form.Control
+                  id="assetCode"
+                    name="assetCode"
+                    placeholder="Asset Code..."
+                    type="number"
+                    ref={register({ required: true,      
+               
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "Only Numbers",
+                        }, })}
+                  ></Form.Control>
+
+                    <p style={{ color: "red" }}>
+                      &#8203;
+                      {errors.assetCode && errors.assetCode.type === "required" && (
+                        <span>This field is required!</span>
+                      )}
+                    </p>
+                </Form.Group>
+               
+              <Form.Group controlId="assetCategory">
+                  <Form.Label>Asset Category</Form.Label>
+                  <Form.Control
+                    name="assetCategory"
+                    as="select"
+                    ref={register({
+                      required: true,
+                      validate: (value) => value !== "Pick a Category",
+                    })}
+                  >
+                    <option>Pick a Category</option>
+                    {searchCategories.map((categories) => (
+                      <option name="categories" value={categories._id}>
+                        {" "}
+                        {categories.assetCategory}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <p style={{ color: "red" }}>
+                    &#8203;
+                    {errors.assetCategory &&
+                      errors.assetCategory.type === "validate" && (
+                        <span>
+                          This field is required, select one of the Categories!
+                        </span>
+                      )}
+                  </p>
+                </Form.Group>
+                {/* <Form.Group controlId="assetCategory">
                   <Form.Label>Asset Category</Form.Label>
                   <Form.Control
                     name="assetCategory"
@@ -91,7 +160,7 @@ function AddAsset() {
                         <span>This field is required!</span>
                       )}
                     </p>
-                </Form.Group>
+                </Form.Group> */}
 
                 <Form.Group controlId="assetDescription">
                   <Form.Label>Asset Description</Form.Label>
@@ -323,6 +392,32 @@ function AddAsset() {
                   </p>
 
                 </Form.Group>
+                <Form.Group controlId="assetAvailability">
+                  <Form.Label>Asset Status</Form.Label>
+                  <Form.Control
+                    name="assetAvailability"
+                    as="select"
+                    ref={register({
+                      required: true,
+                      validate: (value) => value !== "Asset state",
+                    })}
+                  >
+                    <option>Asset state</option>
+                    {status.map((stateStatus) => (
+                      <option value={stateStatus}>{stateStatus}</option>
+                    ))}
+                  </Form.Control>
+                  <p style={{ color: "red" }}>
+                    &#8203;
+                    {errors.assetAvailability &&
+                      errors.assetAvailability.type === "validate" && (
+                        <span>
+                          This field is required, select one of the states!
+                        </span>
+                      )}
+                  </p>
+                </Form.Group>
+                
               </Col>
 
               <Col className="col-12 col-md-6">

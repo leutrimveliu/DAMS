@@ -18,6 +18,7 @@ import MainListItems from "./listItems";
 import { NavLink } from "react-router-dom";
 import UserTable from "./Tables/UserTable";
 import AssetsTable from "./Tables/AssetsTable";
+import CategoryTable from "./Tables/CategoryTable";
 // import EventsTable from "./Tables/EventsTable";
 import AdminTable from "./Tables/AdminTable";
 import ManagerTable from "./Tables/ManagerTable";
@@ -124,6 +125,8 @@ export default function Dashboard() {
         return <AssetsTable />;
       // case "/admin/events":
       //   return <EventsTable />;
+      case "/admin/categories":
+        return <CategoryTable />;
       case "/admin/users":
         return <UserTable />;
       case "/admin/admins":

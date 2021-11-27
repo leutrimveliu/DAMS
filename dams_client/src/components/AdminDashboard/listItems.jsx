@@ -39,6 +39,14 @@ const MainListItems = () => {
             <ListItemText primary="Dashboard" />
           </ListItem>
         </NavLink>
+        <NavLink to="/admin/categories" className="admin__links">
+          <ListItem button>
+            <ListItemIcon>
+              <CategoryIcon className="color--white" />
+            </ListItemIcon>
+            <ListItemText primary="Categories" />
+          </ListItem>
+        </NavLink>
 
         <NavLink to="/admin/admins" className="admin__links">
           <ListItem button>
