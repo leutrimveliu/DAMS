@@ -378,9 +378,11 @@ export default function GetAssets() {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, asset.length - page * rowsPerPage);
-
+console.log('Assetet jon kto ' + asset.length);
+console.log('Kategorite jon kto ' + searchCategories.length);
   return (
     <div className={classes.root}>
+      
       <Grid
         item
         xs={12}
