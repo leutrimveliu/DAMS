@@ -86,7 +86,11 @@ const assetSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  categoryCounter:{
+    type: Number,
+  }
 });
 
 assetSchema.plugin(AutoIncrement, {id:'order_seq',inc_field: 'assetNr'});
+assetSchema.plugin(AutoIncrement, {id:'order_sequence',inc_field: 'categoryCounter', reference_fields: 'assetCategory'});
 module.exports = mongoose.model("Assets", assetSchema);

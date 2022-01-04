@@ -22,9 +22,15 @@ import { Link ,Redirect} from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import {getAssets} from "../../../api/assets";
 import { deleteAsset } from "../../../api/editAsset";
+import {getRegister} from "../../../api/register";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../api/filter";
+import TestChart from "../../Charts/TestChart";
+
+import './AssetsTable.scss';
+import Testing from "../../Charts/Testing";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -329,9 +335,14 @@ export default function AssetsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [asset, setAssets] = React.useState([]);
   const [searchCategories, setSearchCategories] = React.useState([]);
-
+  const [user, setUsers] = React.useState([]);
   
-
+  const getUsersList = async () => {
+    const response = await getRegister();
+   
+    setUsers(response);
+  };
+  
   const getAssetsList = async () => {
     const response = await getAssets(currentUser.user._id);
 
@@ -347,6 +358,7 @@ export default function AssetsTable() {
   useEffect(() => {
     getAssetsList();
     getCategoriesList();
+    getUsersList();
     
   }, []);
 
@@ -418,6 +430,70 @@ export default function AssetsTable() {
         component={Paper}
         className={classes.paper}
       >
+        <TestChart/>
+        <br />
+        <br />
+        <Testing/>
+        <br />
+        <br />
+        <div className="row">
+                <div className="col-lg-4 col-6">
+                  {/* <!-- small box --> */}
+                  <div className="small-box bg-info">
+                    <div className="inner">
+                    <h3 style={{color:'white'}}>{asset.length}
+                    <sup styles="font-size: 20px"></sup></h3>
+                     
+
+                      <p style={{color:'white', fontSize:22}}>Pajisje digjitale</p>
+                    </div>
+                    <div className="icon">
+                      <i className="ion ion-briefcase"></i>
+                    </div>
+                    <Link to="/admin" className="small-box-footer">
+                      More info <i className="fas fa-arrow-circle-right"></i>
+                    </Link>
+                  </div>
+                </div>
+                {/* <!-- ./col --> */}
+                <div className="col-lg-4 col-6">
+                  {/* <!-- small box --> */}
+                  <div className="small-box bg-success">
+                    <div className="inner">
+                      <h3 style={{color:'white'}}>
+                        {searchCategories.length}
+                        <sup styles="font-size: 20px"></sup>
+                      </h3>
+
+                      <p style={{color:'white',fontSize:22}}>Kategori te pajisjeve</p>
+                    </div>
+                    <div className="icon">
+                      <i className="ion ion-clipboard"></i>
+                    </div>
+                    <Link to="/admin" className="small-box-footer">
+                      More info <i className="fas fa-arrow-circle-right"></i>
+                    </Link>
+                  </div>
+                </div>
+                {/* <!-- ./col --> */}
+                <div className="col-lg-4 col-6">
+                  {/* <!-- small box --> */}
+                  <div className="small-box bg-danger">
+                    <div className="inner">
+                      <h3 style={{color:'white'}}>{user.length}</h3>
+
+                      <p style={{color:'white',fontSize:22}}>Perdorues te regjistruar</p>
+                    </div>
+                    <div className="icon">
+                      <i className="ion ion-person-add"></i>
+                    </div>
+                    <Link to="/admin" className="small-box-footer">
+                      More info <i className="fas fa-arrow-circle-right"></i>
+                    </Link>
+                  </div>
+                </div>
+                
+              </div>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
