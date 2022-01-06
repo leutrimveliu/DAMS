@@ -258,7 +258,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Digital Assets
+          Pajisjet digjitale 
         </Typography>
       )}
     </Toolbar>
@@ -305,12 +305,14 @@ const useStyles = makeStyles((theme) => ({
 export default function GetAssets() {
   const classes = useStyles();
   const history = useHistory();
+  const [userDash, setUserDash] = useState(false);
+
   const { user: currentUser } = useSelector((state) => state.auth);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [asset, setAssets] = React.useState([]);
   const [searchCategories, setSearchCategories] = React.useState([]);
   const getAssetsList = async () => {
@@ -333,11 +335,23 @@ export default function GetAssets() {
     const response = await getCategories();
     setSearchCategories(response);
   };
+  useEffect(() => {
+    if (currentUser) {
+      // setCreateEvent(currentUser.role.includes("user"));
+      setUserDash(
+        currentUser.role.includes("manager") ||
+          currentUser.role.includes("admin")
+      );
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     getAssetsList();
     getCategoriesList();
   }, []);
+  if (userDash || !currentUser) {
+    return <Redirect to={"/login"} />;
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

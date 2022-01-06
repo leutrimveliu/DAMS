@@ -155,7 +155,7 @@ export default function Dashboard() {
             noWrap
           >
             <NavLink to="/manager" className="dashboard__link">
-              ninJS Events
+              DAMS
             </NavLink>
           </Typography>
         </Toolbar>

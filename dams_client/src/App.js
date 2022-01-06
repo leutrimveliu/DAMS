@@ -11,6 +11,7 @@ import ManagerDashboard from "./components/MangerDashboard/ManagerDashboard";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import AdminEditProfile from "./components/AdminDashboard/Tables/AdminEditProfile";
 import ManagerEditProfile from "./components/MangerDashboard/Tables/ManagerEditProfile";
+import UserEditProfile from "./components/UserDashboard/Tables/UserEditProfile";
 import AssetsTable from "./components/MangerDashboard/Tables/AssetsTable";
 import EditAsset from "./components/Assets/EditAsset/ManagerEditAsset";
 import AdminsEditAsset from "./components/Assets/EditAsset/AdminEditAsset";
@@ -20,6 +21,8 @@ import ManagerTable from "./components/AdminDashboard/Tables/ManagerTable";
 import ManagerEditAsset from "./components/MangerDashboard/Tables/EditAsset";
 import AdminEditAsset from "./components/AdminDashboard/Tables/EditAsset";
 import GetAssets from "./components/Assets/GetAssets/GetAssets";
+
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 
 function App() {
   const [filterChange, setFilterChange] = useState(null);
@@ -47,6 +50,10 @@ function App() {
             path="/manager/editprofile/:id"
             component={() => <ManagerEditProfile />}
           />
+           <Route
+            path="/user/editprofile/:id"
+            component={() => <UserEditProfile />}
+          />
           <Route
             path="/manager/asset/:id"
             component={() => <ManagerEditAsset />}
@@ -62,7 +69,8 @@ function App() {
           />
           <Route path="/editprofile/:id" component={() => <EditProfile />} />
           <Route path="/manager" component={() => <ManagerDashboard />} />
-          <Route path="/" component={() => <GetAssets />} />
+          <Route path="/user" component={() => <UserDashboard />} />
+          <Route path="/" component={() => <UserDashboard />} />
         </Switch>
         <Footer />
       </BrowserRouter>

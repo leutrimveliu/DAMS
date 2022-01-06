@@ -7,6 +7,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import GroupIcon from "@material-ui/icons/Group";
 import Divider from "@material-ui/core/Divider";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import BusinessIcon from "@material-ui/icons/Business";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CategoryIcon from "@material-ui/icons/Category";
@@ -37,6 +38,14 @@ const MainListItems = () => {
               <DashboardIcon className="color--white"/>
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
+          </ListItem>
+        </NavLink>
+        <NavLink to="/admin/editasset" className="admin__links">
+          <ListItem button>
+            <ListItemIcon>
+              <ManageAccountsIcon className="color--white"/>
+            </ListItemIcon>
+            <ListItemText primary="Manage Assets" />
           </ListItem>
         </NavLink>
         <NavLink to="/admin/categories" className="admin__links">

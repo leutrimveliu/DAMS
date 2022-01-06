@@ -4,9 +4,9 @@ import { lighten, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import './AssetsTable.scss';
 import CategoryChart from "../../Charts/CategoryChart";
-import ReportTable from "./ReportTable";
-import UpperAdminBox from "../../Boxes/UpperAdminBox";
-import TopChart from "../../Charts/AdminChart/TopChart";
+import ReportTable from "../../Home/ReportTable";
+import ManagerBox from "../../Boxes/ManagerBox";
+import TopChart from "../../Charts/ManagerChart/TopChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,21 +35,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AssetsTable() {
-  const classes = useStyles();
+function DashboardUser() {
+    const classes = useStyles();
  
 
-  return (
-    <div className={classes.root}>
-       <Grid
-        item
-        xs={12}
-        sm={12}
-        md={12}
-        component={Paper}
-        className={classes.paper}
-      >
-         <UpperAdminBox/>
+    return (
+      <div className={classes.root}>
+         <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          component={Paper}
+          className={classes.paper}
+        >
+            <ManagerBox/>
          <br />
          <br />
          {/* <LowerAdminBox/> */}
@@ -64,9 +64,10 @@ export default function AssetsTable() {
         <ReportTable/>
         <br />
         <br />
-      
         
-      </Grid>
-    </div>
-  );
-}
+          
+        </Grid>
+      </div>
+    );
+  }
+export default DashboardUser

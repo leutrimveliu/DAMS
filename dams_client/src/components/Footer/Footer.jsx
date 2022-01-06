@@ -43,7 +43,7 @@ const Footer = () => {
 
       <hr />
       <h6 className="footer__copyright">
-        © 2021 DAMS, Inc. All rights reserved
+        © 2022 DAMS, Inc. All rights reserved
       </h6>
     </div>
   );

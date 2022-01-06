@@ -21,7 +21,7 @@ import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 import { useSelector } from "react-redux";
 import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+// import Footer from "../Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -265,7 +265,8 @@ const EditProfile = () => {
         </div>
         <Box mt={5}></Box>
       </Container>
-      {currentUser.role.includes("user") ? <Footer /> : ""}
+      {/* {currentUser.role.includes("user") ? <Footer /> : ""} */}
+      
     </>
   );
 };

@@ -15,17 +15,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
+import Button from '@material-ui/core/Button';
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { Link ,Redirect} from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import {getAssets} from "../../../api/assets";
-import { deleteAsset, getManagerAssets } from "../../../api/editAsset";
-// import { getCategories } from "../../../api/filter";
+import { deleteAsset } from "../../../api/editAsset";
+import {getRegister} from "../../../api/register";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../api/filter";
+import './AssetsTable.scss';
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -37,6 +40,7 @@ function descendingComparator(a, b, orderBy) {
   }
   return 0;
 }
+
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -57,22 +61,17 @@ function stableSort(array, comparator) {
 const headCells = [
   {
     id: "assetNr",
-    numeric: "center",
+    // numeric: "right",
     disablePadding: false,
     label: "No.",
   },
-  // {
-  //   id: "assetOldNr",
-  //   numeric: "center",
-  //   disablePadding: false,
-  //   label: "Old no.",
-  // },
   {
     id: "assetCode",
-     numeric: "center",
+    // numeric: "right",
     disablePadding: false,
     label: "Code",
   },
+  
   {
     id: "assetCategory",
     numeric: "center",
@@ -275,10 +274,9 @@ const EnhancedTableToolbar = (props) => {
           variant="h6"
           id="tableTitle"
           component="div">
-          Menaxho pajisjet digjitale të shtuara nga ju :)
+          All Assets
         </Typography>
       )}
-
     </Toolbar>
   );
 };
@@ -314,100 +312,104 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AssetsTable() {
-  const classes = useStyles();
-  const history = useHistory();
-  const { user: currentUser } = useSelector((state) => state.auth);
-  // const { user: currentUser } = useSelector((state) => state.auth);
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("name");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  // const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [asset, setAssets] = React.useState([]);
-  const [searchCategories, setSearchCategories] = React.useState([]);
-
-  
-
-  const getAssetsList = async () => {
-    const response = await getManagerAssets(currentUser.user._id);
-
-    setAssets(response);
-  };
-  const getCategoriesList = async () => {
-    const response = await getCategories();
-    setSearchCategories(response);
-  };
-
-  
-
-  useEffect(() => {
-    getAssetsList();
-    getCategoriesList();
-  }, []);
-
-  const handleDeleteSubmit = async (id) => {
-    const deleteuser = {
-      user_id: currentUser.user._id,
+function EditAssetTable() {
+    const classes = useStyles();
+    const history = useHistory();
+    const { user: currentUser } = useSelector((state) => state.auth);
+    // const { user: currentUser } = useSelector((state) => state.auth);
+    const [order, setOrder] = React.useState("asc");
+    const [orderBy, setOrderBy] = React.useState("name");
+    const [selected, setSelected] = React.useState([]);
+    const [page, setPage] = React.useState(0);
+    // const [dense, setDense] = React.useState(false);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [asset, setAssets] = React.useState([]);
+    const [searchCategories, setSearchCategories] = React.useState([]);
+    const [user, setUsers] = React.useState([]);
+    
+    const getUsersList = async () => {
+      const response = await getRegister();
+     
+      setUsers(response);
     };
-    try {
-      await deleteAsset(id, deleteuser);
-
-      console.log("Asset has been deleted!");
-      setTimeout(() => {
-        
-        history.go("/manager/assets");
-      }, 1000);
-    } catch (e) {}
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
+    
+    const getAssetsList = async () => {
+      const response = await getAssets(currentUser.user._id);
   
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+      setAssets(response);
+    };
+    const getCategoriesList = async () => {
+      const response = await getCategories();
+      setSearchCategories(response);
+    };
   
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, asset.length - page * rowsPerPage);
-
-  return (
-    <div className={classes.root}>
-      <Grid
+    useEffect(() => {
+      getAssetsList();
+      getCategoriesList();
+      getUsersList();
+      
+    }, []);
+  
+    const handleDeleteSubmit = async (id) => {
+      const deleteuser = {
+        user_id: currentUser.user._id,
+      };
+      try {
+        await deleteAsset(id, deleteuser);
+  
+        console.log("Event has been deleted!");
+        setTimeout(() => {
+          
+          history.go("/admin");
+        }, 1000);
+      } catch (e) {}
+    };
+  
+    const handleRequestSort = (event, property) => {
+      const isAsc = orderBy === property && order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
+      setOrderBy(property);
+    };
+  
+    
+  
+    const handleClick = (event, name) => {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+  
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+  
+      setSelected(newSelected);
+    };
+  
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+    
+  
+    const isSelected = (name) => selected.indexOf(name) !== -1;
+  
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, asset.length - page * rowsPerPage);
+    return (
+        <div className={classes.root}>
+       <Grid
         item
         xs={12}
         sm={12}
@@ -415,8 +417,8 @@ export default function AssetsTable() {
         component={Paper}
         className={classes.paper}
       >
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
+            <EnhancedTableToolbar numSelected={selected.length} />
+             <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -458,12 +460,11 @@ export default function AssetsTable() {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        align="center"
+                        align="left"
                       >
                         {asset.assetNr}
                       </TableCell>
-                      {/* <TableCell align="center">{asset.assetOldNr}</TableCell> */}
-                      <TableCell align="center">{asset.assetCode}</TableCell>
+                      <TableCell align="left">{asset.assetCode}</TableCell>
                       {searchCategories.map((category) =>
                       asset.assetCategory === category._id ? (
                         <TableCell align="center">
@@ -471,6 +472,7 @@ export default function AssetsTable() {
                         </TableCell>
                       ) : null
                     )}
+                      {/* <TableCell align="center">{asset.assetCategory}</TableCell> */}
                       <TableCell align="center">{asset.assetDescription}</TableCell>
                       <TableCell align="center">{asset.assetModel}</TableCell>
                       <TableCell align="center">{asset.assetSerialNo}</TableCell>
@@ -491,7 +493,7 @@ export default function AssetsTable() {
                       <TableCell align="center">{asset.assetHolder}</TableCell>
                       <TableCell align="left">{asset.assetAvailability}</TableCell>
                       <TableCell align="center">
-                        <Link to={`/manager/asset/${asset._id}`}>
+                        <Link to={`/admins/asset/${asset._id}`}>
                           <IconButton
                             aria-label="center"
                             className="edit_button"
@@ -536,7 +538,9 @@ export default function AssetsTable() {
               )}
             </TableBody>
           </Table>
+           
         </TableContainer>
+        
         <TablePagination
           rowsPerPageOptions={[5, 10]}
           component="div"
@@ -546,7 +550,9 @@ export default function AssetsTable() {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Grid>
+     </Grid>
     </div>
-  );
+    )
 }
+
+export default EditAssetTable

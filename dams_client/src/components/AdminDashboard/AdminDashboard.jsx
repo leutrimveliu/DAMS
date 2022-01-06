@@ -22,6 +22,7 @@ import CategoryTable from "./Tables/CategoryTable";
 // import EventsTable from "./Tables/EventsTable";
 import AdminTable from "./Tables/AdminTable";
 import ManagerTable from "./Tables/ManagerTable";
+import EditAssetsTable from "./Tables/EditAssetTable";
 import { useSelector } from "react-redux";
 
 // import EditAdminProfile from "./Tables/EditAdminProfile";
@@ -123,6 +124,8 @@ export default function Dashboard() {
     switch (param) {
       case "/admin":
         return <AssetsTable />;
+        case "/admin/editasset":
+          return <EditAssetsTable />;
       // case "/admin/events":
       //   return <EventsTable />;
       case "/admin/categories":

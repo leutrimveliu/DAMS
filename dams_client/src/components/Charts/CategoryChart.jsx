@@ -1,79 +1,121 @@
-import React, { useState, useEffect } from "react";
-import { Bar, Line, Pie } from "react-chartjs-2";
-import {
-  getDailyCount,
-  getWeeklyCount,
-  getMonthlyCount,
-} from "../../api/department";
+import React , { useState, useEffect } from 'react'
+import {Pie, Bar ,Line } from 'react-chartjs-2';
+import { getCategories } from "../../api/filter";
+import {getRegister} from "../../api/register";
+import {getAssets} from "../../api/assets";
+import { useSelector } from "react-redux";
+import Chart from 'chart.js/auto';
 
-const CategoryChart = () => {
-  const [departments, setDepartments] = useState([]);
-  const departmentsData = [];
-  const fetchEmployees = async () => {
-    const response = await getDailyCount();
-    departmentsData.push(response);
-  };
+function Testing() {
+    const [asset, setAssets] = React.useState([]);
+    const [searchCategories, setSearchCategories] = React.useState([]);
+    const [categoryList1, setCategoryList1] = React.useState([]);
+    const [categoryList2, setCategoryList2] = React.useState([]);
+    const [categoryList3, setCategoryList3] = React.useState([]);
+    const [categoryList4, setCategoryList4] = React.useState([]);
+    const [categoryList5, setCategoryList5] = React.useState([]);
+    const [user, setUsers] = React.useState([]);
+    const { user: currentUser } = useSelector((state) => state.auth);
+  
+    const getUsersList = async () => {
+      const response = await getRegister();
+      setUsers(response);
+    };
+    const getCategoryList1 = async () => {
+        const response = await getAssets();
+        const filteredCategory = response.filter(
+          (asset) => asset.assetCategory === "61a280759cf2ea44b464afe7"
+        );
+        setCategoryList1(filteredCategory);
+       
+      };
+      const getCategoryList2 = async () => {
+        const response = await getAssets();
+        const filteredCategory = response.filter(
+          (asset) => asset.assetCategory === "61a2807f9cf2ea44b464afe8"
+        );
+        setCategoryList2(filteredCategory);
+      };
+      const getCategoryList3 = async () => {
+        const response = await getAssets();
+        const filteredCategory = response.filter(
+          (asset) => asset.assetCategory === "61a281279cf2ea44b464afe9"
+        );
+        setCategoryList3(filteredCategory);
+      };
+      const getCategoryList4 = async () => {
+        const response = await getAssets();
+        const filteredCategory = response.filter(
+          (asset) => asset.assetCategory === "61a281349cf2ea44b464afea"
+        );
+        setCategoryList4(filteredCategory);
+      };
+      const getCategoryList5 = async () => {
+        const response = await getAssets();
+        const filteredCategory = response.filter(
+          (asset) => asset.assetCategory === "61a281719cf2ea44b464afeb"
+        );
+        setCategoryList5(filteredCategory);
+      };
+      
 
-  const fetchEmployees1 = async () => {
-    const response1 = await getWeeklyCount();
-    departmentsData.push(response1);
-  };
-  const fetchEmployees2 = async () => {
-    const response2 = await getMonthlyCount();
-    departmentsData.push(response2);
-    setDepartments(departmentsData);
-  };
-
-  const departmentsArray = [];
-  departments.map((department) => departmentsArray.push(department.count));
-  console.log(departmentsArray);
-
-  useEffect(() => {
-    fetchEmployees();
-    fetchEmployees1();
-    fetchEmployees2();
-  }, []);
-
-  const data = {
-    labels: departments.map((department) => department.name),
-    datasets: [
-      {
-        label: "Categories",
-        data: departmentsArray,
-        fill: true,
-        backgroundColor: [
-          "rgba(94, 214, 132, 0.4)",
-          "rgba(240, 216, 156, 0.4)",
-          "rgba(240, 156, 220, 0.4)",
-        ],
-        borderColor: ["rgba(0, 0, 0, 0.6)"],
-        borderWidth: 1,
-        barThickness: 150,
-        barPercentage: 0.5,
-        maxBarThickness: 200,
-        minBarLength: 2,
-      },
+    const getAssetsList = async () => {
+      const response = await getAssets(currentUser.user._id);
+      setAssets(response);
+    };
+    
+    const getCategoriesList = async () => {
+      const response = await getCategories();
+      setSearchCategories(response);
+    };
+  
+    useEffect(() => {
+      getAssetsList();
+      getCategoriesList();
+      getCategoryList1();
+      getCategoryList2();
+      getCategoryList3();
+      getCategoryList4();
+      getCategoryList5();
+      getUsersList();
+    }, []);
+    
+    return (
+      <div className='row'>
+        
+        <Bar className="col-lg-9 col-6 mx-auto"
+        data={{
+            labels: ['Desktop PC', 'Laptop PC','TV', 'Projektor', 'Pajisje tjera'],
+            datasets: [
+        {
+          id: 1,
+          label: 'Kategorite e pajisjeve digjitale',
+          data: [categoryList1.length, categoryList2.length, categoryList3.length, categoryList4.length, categoryList5.length],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+          ],
+          borderWidth: 1,
+  
+        },
+      
     ],
-  };
-  const options = {
-    title: {
-      display: true,
-      text: "New Departments",
-      fontSize: 20,
-    },
-    tooltips: {
-      xPadding: 10,
-    },
-  };
+  }} 
+      />
+      
+      </div>
+    )
+  }
+  
 
-  console.log(data);
-
-  return (
-    <div className="col-lg-6 col-md-6 col-sm-12">
-      <div className="d-flex justify-content-center mb-2"></div>
-      {departments ? <Pie data={data} options={options} /> : null}
-    </div>
-  );
-};
-
-export default CategoryChart;
+export default Testing

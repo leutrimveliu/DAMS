@@ -119,8 +119,7 @@ export default function Dashboard() {
     if (currentUser) {
       // setCreateEvent(currentUser.role.includes("user"));
       setAdminDash(
-        currentUser.role.includes("manager") ||
-          currentUser.role.includes("user")
+        currentUser.role.includes("admin") || currentUser.role.includes("manager")
       );
     }
   }, [currentUser]);
@@ -128,9 +127,8 @@ export default function Dashboard() {
   // if (!localStorage.getItem("token")) {
   //   return <Redirect to={"/"} />;
   // }
-  // if (adminDash || !currentUser) {
-    if ( adminDash || !currentUser) {
-    return <Redirect to={"/"} />;
+  if (adminDash || !currentUser) {
+    return <Redirect to={"/login"} />;
   }
   return (
     <div className={classes.root}>
@@ -156,7 +154,7 @@ export default function Dashboard() {
             color="inherit"
             noWrap
           >
-            <NavLink to="/admin" className="dashboard__link">
+            <NavLink to="/user" className="dashboard__link">
               DAMS
             </NavLink>
           </Typography>

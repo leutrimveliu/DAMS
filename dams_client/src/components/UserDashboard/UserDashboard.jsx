@@ -6,19 +6,23 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import MainListItems from "../listItems";
-import List from "@material-ui/core/List";
 import MenuIcon from "@material-ui/icons/Menu";
+import MainListItems from "./listItems";
 import { NavLink } from "react-router-dom";
+import DashboardUser from "./Tables/DashboardUser";
 // import EventsTable from "./Tables/EventsTable";
+
 import { useSelector } from "react-redux";
-import EditProfile from "../../EditProfile/EditProfile";
+
+// import EditAdminProfile from "./Tables/EditAdminProfile";
+
 // css
 import "./Dashboard.scss";
 
@@ -28,15 +32,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
-  editProfile: {
-    marginTop: -50,
-  },
   toolbar: {
-    paddingRight: 24,
+    paddingRight: 24, // keep right padding when drawer closed
     backgroundColor: "#333",
   },
   appBar: {
-    backgroundColor: "#333",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     display: "flex",
-    marginTop: 55,
     overflow: "auto",
     flexDirection: "column",
   },
@@ -101,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  const [adminDash, setAdminDash] = useState(false);
+  const [userDash, setUserDash] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -115,12 +114,25 @@ export default function Dashboard() {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const location = useLocation();
+
+  function renderSwitch(param) {
+    switch (param) {
+      case "/":
+        return <DashboardUser />;
+      case "/user":
+        return <DashboardUser />;
+
+      default:
+        console.log("Wrong path");
+    }
+  }
   useEffect(() => {
     if (currentUser) {
       // setCreateEvent(currentUser.role.includes("user"));
-      setAdminDash(
+      setUserDash(
         currentUser.role.includes("manager") ||
-          currentUser.role.includes("user")
+          currentUser.role.includes("admin")
       );
     }
   }, [currentUser]);
@@ -128,9 +140,8 @@ export default function Dashboard() {
   // if (!localStorage.getItem("token")) {
   //   return <Redirect to={"/"} />;
   // }
-  // if (adminDash || !currentUser) {
-    if ( adminDash || !currentUser) {
-    return <Redirect to={"/"} />;
+  if (userDash || !currentUser) {
+    return <Redirect to={"/login"} />;
   }
   return (
     <div className={classes.root}>
@@ -157,7 +168,7 @@ export default function Dashboard() {
             noWrap
           >
             <NavLink to="/admin" className="dashboard__link">
-              DAMS
+              DAMS User Dashboard
             </NavLink>
           </Typography>
         </Toolbar>
@@ -170,20 +181,21 @@ export default function Dashboard() {
         open={open}
       >
         <List style={{ marginTop: "20px" }}>
-          {" "}
           <MainListItems />
         </List>
         <Divider />
+        {/* <List>{secondaryListItems}</List> */}
       </Drawer>
-
       <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <div className={classes.editProfile}>
-                <EditProfile />
-              </div>
-            </Paper>
+          <Grid container spacing={3}>
+           
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {renderSwitch(location.pathname, location.search)}
+              </Paper>
+            </Grid>
           </Grid>
         </Container>
       </main>
