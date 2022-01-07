@@ -4,7 +4,7 @@ import { lighten, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import './AssetsTable.scss';
 import CategoryChart from "../../Charts/CategoryChart";
-import ReportTable from "../../Home/ReportTable";
+import ReportTable from "../../Home/UserReportTable";
 import ManagerBox from "../../Boxes/ManagerBox";
 import TopChart from "../../Charts/ManagerChart/TopChart";
 

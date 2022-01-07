@@ -98,7 +98,7 @@ function EditAsset() {
     <>
       <div className="form--createevent">
         <div className="form__title d-flex justify-content-center mb-5 mt-5 ">
-          <h1>Edit an Asset</h1>
+          <h1>Ndrysho të dhënat e pajisjes</h1>
         </div>
         <div className="d-flex justify-content-center mb-5 mt-5">
           <Form
@@ -109,7 +109,7 @@ function EditAsset() {
               <Col className="col-12 col-md-6">
              
               <Form.Group controlId="assetCode">
-                  <Form.Label>Asset Code</Form.Label>
+                  <Form.Label>Tag no.</Form.Label>
                   <Form.Control
                   id="assetCode"
                     name="assetCode"
@@ -132,7 +132,7 @@ function EditAsset() {
                     </p>
                 </Form.Group>
                 <Form.Group controlId="assetCategory">
-                  <Form.Label>Asset Category</Form.Label>
+                  <Form.Label>Kategoria e pajisjes</Form.Label>
                   <Form.Control
                     name="assetCategory"
                     type="text"
@@ -163,7 +163,7 @@ function EditAsset() {
                   </p>
                 </Form.Group>
                 <Form.Group controlId="assetDescription">
-                  <Form.Label>Asset Description</Form.Label>
+                  <Form.Label>Pershkrimi i pajisjes</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={1}
@@ -198,7 +198,7 @@ function EditAsset() {
                   </p>
                 </Form.Group>
                 <Form.Group controlId="assetModel">
-                  <Form.Label>Asset Model</Form.Label>
+                  <Form.Label>Modeli i pajisjes</Form.Label>
                   <Form.Control
                     name="assetModel"
                     onChange={handleChange}
@@ -216,7 +216,7 @@ function EditAsset() {
                   </p>
                 </Form.Group>
                 <Form.Group controlId="assetSerialNo">
-                  <Form.Label>Asset Serial No.</Form.Label>
+                  <Form.Label>Serial No.</Form.Label>
                   <Form.Control
                     name="assetSerialNo"
                     onChange={handleChange}
@@ -233,7 +233,7 @@ function EditAsset() {
                     </p>
                 </Form.Group>
                 <Form.Group controlId="assetSupplier">
-                  <Form.Label>Asset Supplier</Form.Label>
+                  <Form.Label>Furnitori i pajisjes</Form.Label>
                   <Form.Control
                     name="assetSupplier"
                     onChange={handleChange}
@@ -252,7 +252,7 @@ function EditAsset() {
                 </Form.Group>
                 
                 <Form.Group controlId="price">
-                  <Form.Label>Asset Price</Form.Label>
+                  <Form.Label>Cmimi i pajisjes</Form.Label>
                   <Form.Control
                   id="price"
                     name="price"
@@ -279,7 +279,7 @@ function EditAsset() {
 
                 
                 <Form.Group controlId="deliveryDate">
-                  <Form.Label>Delivery Date</Form.Label>
+                  <Form.Label>Data e pranimit</Form.Label>
                   <Form.Control
                     name="deliveryDate"
                     type="date"
@@ -305,7 +305,7 @@ function EditAsset() {
                   </p>
                 </Form.Group>
                 <Form.Group controlId="donorName">
-                <Form.Label >Donor Name</Form.Label>
+                <Form.Label >Donatori</Form.Label>
                   <Form.Control
                     name="donorName"
                     type="text"
@@ -324,7 +324,7 @@ function EditAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="projectName">
-                <Form.Label >Project Name</Form.Label>
+                <Form.Label >Projekti</Form.Label>
                   <Form.Control
                     name="projectName"
                     onChange={handleChange}
@@ -343,7 +343,7 @@ function EditAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="assetLocation">
-                <Form.Label >Asset Location</Form.Label>
+                <Form.Label >Lokacioni i pajisjes</Form.Label>
                   <Form.Control
                     name="assetLocation"
                     onChange={handleChange}
@@ -362,7 +362,7 @@ function EditAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="roomNo">
-                  <Form.Label>Room No.</Form.Label>
+                  <Form.Label>Nr. dhomes</Form.Label>
                   <Form.Control
                     name="roomNo"
                     onChange={handleChange}
@@ -379,7 +379,7 @@ function EditAsset() {
                     </p>
                 </Form.Group>
                 <Form.Group controlId="assetHolder">
-                <Form.Label >Asset Holder</Form.Label>
+                <Form.Label >Mbajtesi i pajisjes</Form.Label>
                   <Form.Control
                     name="assetHolder"
                     onChange={handleChange}
@@ -398,7 +398,7 @@ function EditAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="assetAvailability">
-                  <Form.Label>Asset Status*</Form.Label>
+                  <Form.Label>Statusi i pajisjes</Form.Label>
                   <Form.Control
                     name="assetAvailability"
                     value={assetDetails.assetAvailability}
@@ -434,7 +434,7 @@ function EditAsset() {
                   variant="primary"
                   type="submit"
                 >
-                  Edit Asset
+                  Ndrysho të dhënat
                 </Button>
               </Col>
               

@@ -45,7 +45,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <ManageAccountsIcon className="color--white"/>
             </ListItemIcon>
-            <ListItemText primary="Manage Assets" />
+            <ListItemText primary="Menaxho pajisjet" />
           </ListItem>
         </NavLink>
         <NavLink to="/admin/categories" className="admin__links">
@@ -53,7 +53,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <CategoryIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Categories" />
+            <ListItemText primary="Kategoritë" />
           </ListItem>
         </NavLink>
 
@@ -62,7 +62,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <SupervisorAccountIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Admins" />
+            <ListItemText primary="Administratorët" />
           </ListItem>
         </NavLink>
         <NavLink to="/admin/managers" className="admin__links">
@@ -70,7 +70,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <BusinessIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Managers" />
+            <ListItemText primary="Menaxherët" />
           </ListItem>
         </NavLink>
 
@@ -79,7 +79,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <GroupIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Users" />
+            <ListItemText primary="Përdoruesit e thjeshtë" />
           </ListItem>
         </NavLink>
 
@@ -104,7 +104,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <AccountBoxIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Edit Profile" />
+            <ListItemText primary="Ndrysho profilin" />
           </ListItem>
         </NavLink>
         <NavLink to="/login" className="admin__links" onClick={logOut}>
@@ -112,7 +112,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <ExitToAppIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText primary="Shkyçu" />
           </ListItem>
         </NavLink>
 

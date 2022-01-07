@@ -78,7 +78,7 @@ function AddAsset() {
       {/* <CompanyDashboard /> */}
       <div className="create__event ">
         <div className="event__container">
-          <h1>Add an Asset</h1>
+          <h1>Regjistro një pajisje në sistem</h1>
         </div>
         <div className="event__container">
           {errMessage && <Alert severity="error">{errMessage}</Alert>}
@@ -92,11 +92,11 @@ function AddAsset() {
             <Row>
               <Col className="col-12 col-md-6">
               <Form.Group controlId="assetCode">
-                  <Form.Label>Asset Code</Form.Label>
+                  <Form.Label>Tag no.</Form.Label>
                   <Form.Control
                   id="assetCode"
                     name="assetCode"
-                    placeholder="Asset Code..."
+                    placeholder="Tag no..."
                     type="number"
                     ref={register({ required: true,      
                
@@ -115,7 +115,7 @@ function AddAsset() {
                 </Form.Group>
                
               <Form.Group controlId="assetCategory">
-                  <Form.Label>Asset Category</Form.Label>
+                  <Form.Label>Kategoria e pajisjes</Form.Label>
                   <Form.Control
                     name="assetCategory"
                     as="select"
@@ -142,34 +142,15 @@ function AddAsset() {
                       )}
                   </p>
                 </Form.Group>
-                {/* <Form.Group controlId="assetCategory">
-                  <Form.Label>Asset Category</Form.Label>
-                  <Form.Control
-                    name="assetCategory"
-                    type="text"
-                    id="assetCategory"
-                    placeholder="Asset Category..."
-                    ref={register({ required: true,      
-                    })}
-                  />
-                    
                
-                    <p style={{ color: "rdelied" }}>
-                      &#8203;
-                      {errors.assetCategory && errors.assetCategory.type === "required" && (
-                        <span>This field is required!</span>
-                      )}
-                    </p>
-                </Form.Group> */}
-
                 <Form.Group controlId="assetDescription">
-                  <Form.Label>Asset Description</Form.Label>
+                  <Form.Label>Pershkrimi i pajisjes</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={1}
                     id="assetDescription"
                     name="assetDescription"
-                    placeholder="Asset Description..."
+                    placeholder="Pershkrimi i pajisjes..."
                     ref={register({
                       required: true,
                       minLength: 5,
@@ -198,12 +179,12 @@ function AddAsset() {
                 </Form.Group>
               
               <Form.Group controlId="assetModel">
-                  <Form.Label>Asset Model</Form.Label>
+                  <Form.Label>Modeli i pajisjes</Form.Label>
                   <Form.Control
                     name="assetModel"
                     id="assetModel"
                     type="text"
-                    placeholder="Asset Model..."
+                    placeholder="Modeli i pajisjess..."
                     ref={register({ required: true, minLength: 3 })}
                   />
                   <p style={{ color: "red" }}>
@@ -216,11 +197,11 @@ function AddAsset() {
                 </Form.Group>
 
                 <Form.Group controlId="assetSerialNo">
-                  <Form.Label>Asset Serial No.</Form.Label>
+                  <Form.Label>Serial No.</Form.Label>
                   <Form.Control
                     name="assetSerialNo"
                     id="assetSerialNo"
-                    placeholder="Asset Serial No...."
+                    placeholder="Serial No...."
                     type="text"
                     ref={register({ required: true, minLength: 3 })}
                   ></Form.Control>
@@ -234,12 +215,12 @@ function AddAsset() {
                 </Form.Group>
 
                 <Form.Group controlId="assetSupplier">
-                  <Form.Label>Asset Supplier</Form.Label>
+                  <Form.Label>Furnitori i pajisjes</Form.Label>
                   <Form.Control
                     name="assetSupplier"
                     id="assetSupplier"
                     type="text"
-                    placeholder="Asset Supplier..."
+                    placeholder="Furnitori i pajisjes..."
                     ref={register({ required: true })}
                   />
                   <p style={{ color: "red" }}>
@@ -252,11 +233,11 @@ function AddAsset() {
                 </Form.Group>
                 
                 <Form.Group controlId="price">
-                  <Form.Label>Asset Price</Form.Label>
+                  <Form.Label>Cmimi i pajisjes</Form.Label>
                   <Form.Control
                   id="price"
                     name="price"
-                    placeholder="Asset Price..."
+                    placeholder="Cmimi i pajisjes..."
                     type="number"
                     ref={register({ required: true,      
                
@@ -277,7 +258,7 @@ function AddAsset() {
               <Col className="col-12 col-md-6">
 
                 <Form.Group controlId="deliveryDate">
-                  <Form.Label>Delivery Date</Form.Label>
+                  <Form.Label>Data e pranimit</Form.Label>
                   <Form.Control
                     name="deliveryDate"
                     type="date"
@@ -304,12 +285,12 @@ function AddAsset() {
                 </Form.Group>
                 
                 <Form.Group controlId="donorName">
-                <Form.Label >Donor Name</Form.Label>
+                <Form.Label >Donatori</Form.Label>
                   <Form.Control
                     name="donorName"
                     type="text"
                     id="donorName"
-                    placeholder="Donor name..."
+                    placeholder="Donatori..."
                     ref={register({ required: true })}
                   />
                   <p style={{ color: "red" }}>
@@ -322,12 +303,12 @@ function AddAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="projectName">
-                <Form.Label >Project Name</Form.Label>
+                <Form.Label >Projekti</Form.Label>
                   <Form.Control
                     name="projectName"
                     id="projectName"
                     type="text"
-                    placeholder="Project name..."
+                    placeholder="Projekti..."
                     ref={register({ required: true })}
                   />
                   <p style={{ color: "red" }}>
@@ -340,12 +321,12 @@ function AddAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="assetLocation">
-                <Form.Label >Asset Location</Form.Label>
+                <Form.Label >Lokacioni i pajisjes</Form.Label>
                   <Form.Control
                     name="assetLocation"
                     id="assetLocation"
                     type="text"
-                    placeholder="Asset Location..."
+                    placeholder="Lokacioni i pajisjes..."
                     ref={register({ required: true })}
                   />
                   <p style={{ color: "red" }}>
@@ -358,11 +339,11 @@ function AddAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="roomNo">
-                  <Form.Label>Room No.</Form.Label>
+                  <Form.Label>Nr. dhomes</Form.Label>
                   <Form.Control
                     name="roomNo"
                     id="roomNo"
-                    placeholder="Room No..."
+                    placeholder="Nr. dhomes..."
                     type="text"
                     ref={register({ required: true, minLength: 1 })}
                   ></Form.Control>
@@ -375,12 +356,12 @@ function AddAsset() {
                     </p>
                 </Form.Group>
                 <Form.Group controlId="assetHolder">
-                <Form.Label >Asset Holder</Form.Label>
+                <Form.Label >Mbajtesi i pajisjes</Form.Label>
                   <Form.Control
                     name="assetHolder"
                     id="assetHolder"
                     type="text"
-                    placeholder="Asset Holder..."
+                    placeholder="Mbajtesi i pajisjes..."
                     ref={register({ required: true })}
                   />
                   <p style={{ color: "red" }}>
@@ -393,7 +374,7 @@ function AddAsset() {
 
                 </Form.Group>
                 <Form.Group controlId="assetAvailability">
-                  <Form.Label>Asset Status</Form.Label>
+                  <Form.Label>Statusi i pajisjes</Form.Label>
                   <Form.Control
                     name="assetAvailability"
                     as="select"
@@ -426,7 +407,7 @@ function AddAsset() {
                   variant="primary"
                   type="submit"
                 >
-                  Add
+                  Shto pajisjen
                 </Button>
               </Col>
             </Row>

@@ -69,26 +69,26 @@ const headCells = [
     id: "assetCode",
     // numeric: "right",
     disablePadding: false,
-    label: "Code",
+    label: "Tag no.",
   },
   
   {
     id: "assetCategory",
     numeric: "center",
     disablePadding: false,
-    label: "Category",
+    label: "Kategoria",
   },
   {
     id: "assetDescription",
     numeric: "center",
     disablePadding: false,
-    label: "Description",
+    label: "Pershkrimi",
   },
   {
     id: "assetModel",
      numeric: "left",
     disablePadding: false,
-    label: "Model",
+    label: "Modeli",
   },
   {
     id: "assetSerialNo",
@@ -100,75 +100,75 @@ const headCells = [
     id: "assetSupplier",
     numeric: "center",
     disablePadding: false,
-    label: "Supplier",
+    label: "Furnitori",
   },
   {
     id: "price",
     numeric: "center",
     disablePadding: false,
-    label: "Price",
+    label: "Cmimi",
   }, 
   {
     id: "deliveryDate",
      numeric: "left",
     disablePadding: false,
-    label: "Delivery date",
+    label: "Data e pranimit",
   },
   {
     id: "publishDate",
      numeric: "left",
     disablePadding: false,
-    label: "Publish date",
+    label: "Data e publikimit",
   },
   
   {
     id: "donorName",
     numeric: "center",
     disablePadding: false,
-    label: "Donor",
+    label: "Donatori",
   },
   {
     id: "projectName",
     numeric: "center",
     disablePadding: false,
-    label: "Project Name",
+    label: "Projekti",
   },
   {
     id: "assetLocation",
     numeric: "center",
     disablePadding: false,
-    label: "Location",
+    label: "Lokacioni",
   },
   {
     id: "roomNo",
     numeric: "center",
     disablePadding: false,
-    label: "Room no.",
+    label: "Nr. dhomes",
   },
   {
     id: "assetHolder",
     numeric: "center",
     disablePadding: false,
-    label: "Holder",
+    label: "Mbajtesi",
   },
   {
     id: "assetAvailability",
     numeric: "center",
     disablePadding: false,
-    label: "Status",
+    label: "Statusi",
   },
 
   {
     id: "edit",
     numeric: "center",
     disablePadding: false,
-    label: "Edit Asset",
+    label: "Ndrysho pajisjen",
   },
   {
     id: "delete",
     numeric: "center",
     disablePadding: false,
-    label: "Delete Asset",
+    label: "Fshij pajisjen",
   },
 ];
 
@@ -274,7 +274,7 @@ const EnhancedTableToolbar = (props) => {
           variant="h6"
           id="tableTitle"
           component="div">
-          All Assets
+          Menaxho pajisjet digjitale
         </Typography>
       )}
     </Toolbar>
@@ -322,7 +322,7 @@ function EditAssetTable() {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     // const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [asset, setAssets] = React.useState([]);
     const [searchCategories, setSearchCategories] = React.useState([]);
     const [user, setUsers] = React.useState([]);

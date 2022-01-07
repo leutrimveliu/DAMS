@@ -8,22 +8,22 @@ import {getRegister} from "../../api/register";
 import {getAssets} from "../../api/assets";
 
 const columns = [
-  { field: 'assetNr', headerName: 'No', width: 30 },
-  { field: 'assetCode', headerName: 'Code',  width: 100 },
-  { field: 'assetCategory', headerName: 'Category', width: 220 },
-  { field: 'assetDescription', headerName: 'Description', width: 220 },
-  { field: 'assetModel', headerName: 'Model',  width: 220 },
-  { field: 'assetSerialNo', headerName: 'Serial no.', width: 100 },
-  { field: 'assetSupplier', headerName: 'Supplier', width: 150 },
-  { field: 'price', headerName: 'Price',  width: 70 },
-  { field: 'deliveryDate', headerName: 'Delivery date', width: 150 },
-  { field: 'publishDate', headerName: 'Publish date', width: 150 },
-  { field: 'donorName', headerName: 'Donor',  width: 150 },
-  { field: 'projectName', headerName: 'Project Name', width: 150 },
-  { field: 'assetLocation', headerName: 'Location', width: 150 },
-  { field: 'roomNo', headerName: 'Room no.',  width: 150 },
-  { field: 'assetHolder', headerName: 'Holder', width: 150 },
-  { field: 'assetAvailability', headerName: 'Status', width: 150 },
+  { field: 'assetNr', headerName: 'No.', width: 30 },
+  { field: 'assetCode', headerName: 'Tag no.',  width: 120 },
+  { field: 'assetCategory', headerName: 'Kategoria', width: 120 },
+  { field: 'assetDescription', headerName: 'Pershkrimi', width: 220 },
+  { field: 'assetModel', headerName: 'Modeli',  width: 270 },
+  { field: 'assetSerialNo', headerName: 'Serial no.', width: 120 },
+  { field: 'assetSupplier', headerName: 'Furnitori', width: 120 },
+  { field: 'price', headerName: 'Cmimi',  width: 100 },
+  { field: 'deliveryDate', headerName: 'Data e pranimit', width: 130 },
+  { field: 'publishDate', headerName: 'Data e publikimit', width: 135 },
+  { field: 'donorName', headerName: 'Donatori',  width: 120 },
+  { field: 'projectName', headerName: 'Projekti', width: 120 },
+  { field: 'assetLocation', headerName: 'Lokacioni', width: 120 },
+  { field: 'roomNo', headerName: 'Nr. dhomes',  width: 100 },
+  { field: 'assetHolder', headerName: 'Mbajtesi', width: 120 },
+  { field: 'assetAvailability', headerName: 'Statusi', width: 85},
  
   
 ];

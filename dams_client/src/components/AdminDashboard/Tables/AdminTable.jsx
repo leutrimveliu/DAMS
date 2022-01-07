@@ -49,9 +49,9 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "firstName", numeric: false, disablePadding: true, label: "Name" },
-  { id: "lastName", numeric: true, disablePadding: false, label: "Surname" },
-  { id: "email", numeric: true, disablePadding: false, label: "Email" },
+  { id: "firstName", numeric: false, disablePadding: true, label: "Emri" },
+  { id: "lastName", numeric: true, disablePadding: false, label: "Mbiemri" },
+  { id: "email", numeric: true, disablePadding: false, label: "Emaili" },
 
   { id: "role_id", numeric: true, disablePadding: false, label: "Role ID" },
   // // { id: "edit", numeric: true, disablePadding: false, label: "Edit" },
@@ -160,7 +160,7 @@ const EnhancedTableToolbar = (props) => {
           variant="h6"
           id="tableTitle"
           component="div">
-          {("Admins")}
+          {("Administratorët e sistemit")}
         </Typography>
       )}
 

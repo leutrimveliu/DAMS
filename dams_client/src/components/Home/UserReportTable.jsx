@@ -2,42 +2,37 @@ import  React, { useEffect }  from 'react';
 import { DataGrid ,GridToolbarContainer,
     GridToolbarExport,
     gridClasses,} from '@mui/x-data-grid';
-import { getCategories } from "../../../api/filter";
+import { getCategories } from "../../api/filter";
 import { useSelector } from "react-redux";
-import {getRegister} from "../../../api/register";
-import {getAssets} from "../../../api/assets";
+import {getRegister} from "../../api/register";
+import {getAssets} from "../../api/assets";
 
 const columns = [
-  { field: 'assetNr', headerName: 'No.', width: 30 },
-  { field: 'assetCode', headerName: 'Tag no.',  width: 120 },
-  { field: 'assetCategory', headerName: 'Kategoria', width: 120 },
-  { field: 'assetDescription', headerName: 'Pershkrimi', width: 220 },
-  { field: 'assetModel', headerName: 'Modeli',  width: 270 },
-  { field: 'assetSerialNo', headerName: 'Serial no.', width: 120 },
-  { field: 'assetSupplier', headerName: 'Furnitori', width: 120 },
-  { field: 'price', headerName: 'Cmimi',  width: 100 },
-  { field: 'deliveryDate', headerName: 'Data e pranimit', width: 130 },
-  { field: 'publishDate', headerName: 'Data e publikimit', width: 135 },
-  { field: 'donorName', headerName: 'Donatori',  width: 120 },
-  { field: 'projectName', headerName: 'Projekti', width: 120 },
-  { field: 'assetLocation', headerName: 'Lokacioni', width: 120 },
-  { field: 'roomNo', headerName: 'Nr. dhomes',  width: 100 },
-  { field: 'assetHolder', headerName: 'Mbajtesi', width: 120 },
-  { field: 'assetAvailability', headerName: 'Statusi', width: 85
- },
- 
+    { field: 'assetNr', headerName: 'No.', width: 30 },
+    { field: 'assetCode', headerName: 'Tag no.',  width: 120 },
+    { field: 'assetCategory', headerName: 'Kategoria', width: 120 },
+    { field: 'assetDescription', headerName: 'Pershkrimi', width: 220 },
+    { field: 'assetModel', headerName: 'Modeli',  width: 270 },
+    { field: 'assetSerialNo', headerName: 'Serial no.', width: 120 },
+    { field: 'projectName', headerName: 'Projekti', width: 120 },
+    { field: 'assetLocation', headerName: 'Lokacioni', width: 120 },
+    { field: 'roomNo', headerName: 'Nr. dhomes',  width: 100 },
+    { field: 'assetHolder', headerName: 'Mbajtesi', width: 120 },
+    { field: 'assetAvailability', headerName: 'Statusi', width: 85},
+   
+    
+  ];
   
-];
+  function CustomToolbar() {
+      return (
+        <GridToolbarContainer className={gridClasses.toolbarContainer}>
+          <GridToolbarExport  printOptions={{ allColumns: true }}  />
+        </GridToolbarContainer>
+      );
+    }
+  
 
-function CustomToolbar() {
-    return (
-      <GridToolbarContainer className={gridClasses.toolbarContainer}>
-        <GridToolbarExport  printOptions={{ allColumns: true }}  />
-      </GridToolbarContainer>
-    );
-  }
-
-export default function ReportTable() {
+function UserReportTable() {
     const { user: currentUser } = useSelector((state) => state.auth);
     const [asset, setAssets] = React.useState([]);
     const [searchCategories, setSearchCategories] = React.useState([]);
@@ -90,11 +85,6 @@ export default function ReportTable() {
            assetDescription: obj.assetDescription,
            assetModel: obj.assetModel,
            assetSerialNo: obj.assetSerialNo,
-           assetSupplier: obj.assetSupplier,
-           price: obj.price.toFixed(2),
-           deliveryDate: obj.deliveryDate.split("T")[0],
-           publishDate: obj.publishDate.split("T")[0],
-           donorName: obj.donorName,
            projectName: obj.projectName,
            assetLocation: obj.assetLocation,
            roomNo: obj.roomNo,
@@ -120,3 +110,5 @@ export default function ReportTable() {
     </div>
   );
 }
+
+export default UserReportTable

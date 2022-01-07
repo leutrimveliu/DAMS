@@ -58,13 +58,13 @@ const headCells = [
     id: "eventCategory",
     numeric: false,
     disablePadding: false,
-    label: "Asset Category",
+    label: "Kategoria e pajisjes",
   },
   {
     id: "deleteCategory",
-    numeric: false,
-    disablePadding: false,
-    label: "Delete",
+    numeric: "center",
+    disablePadding: false,                                                                                              
+    label: "Fshij kategorinë",
   },
 ];
 function EnhancedTableHead(props) {
@@ -95,7 +95,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "center" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}>
             <TableSortLabel

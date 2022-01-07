@@ -39,7 +39,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <EmojiEventsIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Manage Assets" />
+            <ListItemText primary="Menaxho pajisjet" />
           </ListItem>
         </NavLink>
         <NavLink to="/manager/addasset" className="admin__links">
@@ -47,7 +47,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <BusinessIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Add an Asset" />
+            <ListItemText primary="Shto një pajisje" />
           </ListItem>
         </NavLink>
         <Divider style={{ backgroundColor: "#fff" }} />
@@ -66,7 +66,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <AccountBoxIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Edit Profile" />
+            <ListItemText primary="Ndrysho profilin" />
           </ListItem>
         </NavLink>
         <NavLink to="/login" className="admin__links" onClick={logOut}>
@@ -74,7 +74,7 @@ const MainListItems = () => {
             <ListItemIcon>
               <ExitToAppIcon className="color--white" />
             </ListItemIcon>
-            <ListItemText primary="Log Out" />
+            <ListItemText primary="Shkyçu" />
           </ListItem>
         </NavLink>
       </div>

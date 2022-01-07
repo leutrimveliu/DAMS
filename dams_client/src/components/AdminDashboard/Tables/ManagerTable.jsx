@@ -58,13 +58,13 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "firstName", numeric: false, disablePadding: true, label: "Name" },
-  { id: "lastName", numeric: true, disablePadding: false, label: "Surname" },
-  { id: "email", numeric: true, disablePadding: false, label: "Email" },
+  { id: "firstName", numeric: false, disablePadding: true, label: "Emri" },
+  { id: "lastName", numeric: true, disablePadding: false, label: "Mbiemri" },
+  { id: "email", numeric: true, disablePadding: false, label: "Emaili" },
   
-  { id: "role_id", numeric: true, disablePadding: false, label: "Role" },
-  { id: "edit", numeric: true, disablePadding: false, label: "Edit" },
-  { id: "delete", numeric: true, disablePadding: false, label: "Delete" },
+  { id: "role_id", numeric: true, disablePadding: false, label: "Roli" },
+  { id: "edit", numeric: true, disablePadding: false, label: "Ndrysho" },
+  { id: "delete", numeric: true, disablePadding: false, label: "Fshij" },
   
 ];
 
@@ -175,7 +175,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          {("Managers")}
+          {("Menaxherët e sistemit")}
         </Typography>
       )}
 
