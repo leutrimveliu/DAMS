@@ -58,7 +58,6 @@ function Testing() {
         setCategoryList5(filteredCategory);
       };
       
-
     const getAssetsList = async () => {
       const response = await getAssets(currentUser.user._id);
       setAssets(response);

@@ -8,6 +8,7 @@ import CategoryChart from "../../Charts/CategoryChart";
 import ReportTable from "../../Home/ReportTable";
 import ManagerBox from "../../Boxes/ManagerBox";
 import TopChart from "../../Charts/ManagerChart/TopChart";
+import CostChart from "../../Charts/CostChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +52,10 @@ export default function AssetsTable() {
         className={classes.paper}
       >
          <ManagerBox/>
+         <br />
+         <br />
+         
+         <CostChart/>
          <br />
          <br />
          {/* <LowerAdminBox/> */}
