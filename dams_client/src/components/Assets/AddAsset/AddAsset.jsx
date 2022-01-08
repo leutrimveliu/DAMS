@@ -407,7 +407,7 @@ function AddAsset() {
                   variant="primary"
                   type="submit"
                 >
-                  Shto pajisjen
+                  Shto 
                 </Button>
               </Col>
             </Row>
