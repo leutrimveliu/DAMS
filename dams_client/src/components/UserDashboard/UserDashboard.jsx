@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
-    backgroundColor: "#2d3b22",
+    backgroundColor: "#573260",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    backgroundColor: "#2d3b22",
+    backgroundColor: "#573260",
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
@@ -97,9 +97,6 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
-  drawerPaper:{
-    backgroundColor: "#2d3b22"
-    }
 }));
 
 export default function Dashboard() {

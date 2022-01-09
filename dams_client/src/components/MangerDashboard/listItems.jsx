@@ -26,6 +26,9 @@ const MainListItems = () => {
   return (
     <>
       <div style={{bac: "red"}}>
+      <ListSubheader inset style={{ color: "#fff" , paddingLeft:25 }}>
+          Manager Dashboard
+        </ListSubheader>
         <NavLink to="/manager" className="admin__links">
           <ListItem button>
             <ListItemIcon>

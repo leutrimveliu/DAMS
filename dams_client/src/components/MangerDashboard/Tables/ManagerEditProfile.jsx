@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24,
-    backgroundColor: "#333",
+    backgroundColor: "#17365a",
   },
   appBar: {
     backgroundColor: "#333",
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    backgroundColor: "#333",
+    backgroundColor: "#17365a",
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,

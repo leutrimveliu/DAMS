@@ -21,7 +21,7 @@ import AssetsTable from "./Tables/AssetsTable";
 // import CurrentRequests from "./Tables/CurrentRequests";
 // import ApprovedRequests from "./Tables/ApprovedRequests";
 import { useSelector } from "react-redux";
-
+// #17365a
 // css
 import "./Dashboard.scss";
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   toolbar: {
-    paddingRight: 24,
+    paddingRight: 24, // keep right padding when drawer closed
     backgroundColor: "#17365a",
   },
   appBar: {
@@ -96,9 +96,6 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
-  drawerPaper:{
-    backgroundColor: "#17365a"
-    }
     
 }));
 
