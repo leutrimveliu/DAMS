@@ -53,7 +53,7 @@ const headCells = [
   { id: "lastName", numeric: true, disablePadding: false, label: "Mbiemri" },
   { id: "email", numeric: true, disablePadding: false, label: "Emaili" },
 
-  { id: "role_id", numeric: true, disablePadding: false, label: "Role ID" },
+  { id: "role_id", numeric: true, disablePadding: false, label: "Roli" },
   // // { id: "edit", numeric: true, disablePadding: false, label: "Edit" },
   // { id: "delete", numeric: true, disablePadding: false, label: "Delete" },
 ];
@@ -338,8 +338,14 @@ export default function UserTable() {
                     </TableCell>
                     <TableCell align="right">{user.lastName}</TableCell>
                     <TableCell align="right">{user.email}</TableCell>
+                    
                     {/* <TableCell align="right">{user.password}</TableCell> */}
-                    <TableCell align="right">{user.role_id}</TableCell>
+                    {roleDetails.map((roli)=>
+                    user.role_id === roli._id ? (
+                       <TableCell align="right">{roli.roleName}</TableCell>
+
+                    ): null)}
+                   
                     
                     {/* <TableCell align="right">
                       <IconButton
